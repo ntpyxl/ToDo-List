@@ -10,7 +10,13 @@ function App() {
     const [taskName, setTaskName] = useState("");
 
     const addTask = () => {
-        if (taskName.trim() === "") return;
+        if (taskName.trim() === "")
+            return; /* TODO: Add notification response */
+
+        const isDuplicate = taskList.some(
+            ({ task }) => task.toLowerCase() === taskName.toLowerCase()
+        );
+        if (isDuplicate) return; /* TODO: Add notification response */
 
         refreshTaskList((prevTaskList) => [
             ...prevTaskList,
@@ -49,6 +55,7 @@ function App() {
                     >
                         Add
                     </button>
+
                     <div className="ml-2 text-sm text-gray-600">
                         {taskName.length} / {taskNameTextLength}
                     </div>
