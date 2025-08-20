@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 function App() {
+    const taskNameTextLength = 112;
     const [taskList, refreshTaskList] = useState([
         "Clean dishes",
         "Organize furniture",
@@ -24,6 +26,7 @@ function App() {
                         name="taskName"
                         placeholder="Type your task here..."
                         value={taskName}
+                        maxLength={taskNameTextLength}
                         onChange={(e) => setTaskName(e.target.value)}
                         className="px-3 py-1 border-2 border-black rounded-2xl bg-white focus:outline-none"
                     ></input>
@@ -33,6 +36,9 @@ function App() {
                     >
                         Add
                     </button>
+                    <div className="text-sm text-gray-600 mt-1">
+                        {taskName.length} / {taskNameTextLength}
+                    </div>
                 </div>
             </div>
 
@@ -41,9 +47,17 @@ function App() {
                 {taskList.map((task, index) => (
                     <div
                         key={index}
-                        className="w-[25vw] px-3 py-1 border-2 border-black bg-white shadow-[0_4px_2px_rgba(0,0,0,0.2)]"
+                        className="flex justify-between items-center w-[25vw] px-3 py-1 border-2 border-black bg-white shadow-[0_4px_2px_rgba(0,0,0,0.2)]"
                     >
-                        <p>{task}</p>
+                        <p className="flex-1 break-all min-w-0">{task}</p>
+                        <div className="flex space-x-2">
+                            <button className="p-2 cursor-pointer hover:scale-105 duration-150">
+                                <FaEdit />
+                            </button>
+                            <button className="p-2 cursor-pointer hover:scale-105 duration-150">
+                                <FaTrash />
+                            </button>
+                        </div>
                     </div>
                 ))}
             </div>
