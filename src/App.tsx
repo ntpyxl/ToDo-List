@@ -1,19 +1,32 @@
 import { useState } from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaCheck, FaEdit, FaTrash } from "react-icons/fa";
 
 function App() {
-    const taskNameTextLength = 112;
+    const taskNameTextLength = 76;
     const [taskList, refreshTaskList] = useState([
-        "Clean dishes",
-        "Organize furniture",
+        { task: "Clean dishes", isCompleted: false },
+        { task: "Organize furniture", isCompleted: false },
     ]);
     const [taskName, setTaskName] = useState("");
 
     const addTask = () => {
         if (taskName.trim() === "") return;
 
-        refreshTaskList((prevTaskList) => [...prevTaskList, taskName]);
+        refreshTaskList((prevTaskList) => [
+            ...prevTaskList,
+            { task: taskName, isCompleted: false },
+        ]);
         setTaskName("");
+    };
+
+    const taskStatusToggle = (task: string) => {
+        refreshTaskList((prevTaskList) =>
+            prevTaskList.map((item) =>
+                item.task === task
+                    ? { ...item, isCompleted: !item.isCompleted }
+                    : item
+            )
+        );
     };
 
     return (
@@ -36,7 +49,7 @@ function App() {
                     >
                         Add
                     </button>
-                    <div className="text-sm text-gray-600 mt-1">
+                    <div className="ml-2 text-sm text-gray-600">
                         {taskName.length} / {taskNameTextLength}
                     </div>
                 </div>
@@ -44,17 +57,29 @@ function App() {
 
             <div className="flex flex-col py-2 justify-center items-center space-y-3">
                 <h3 className="text-2xl font-semibold">Task Lists</h3>
-                {taskList.map((task, index) => (
+                {taskList.map(({ task, isCompleted }, index) => (
                     <div
                         key={index}
-                        className="flex justify-between items-center w-[25vw] px-3 py-1 border-2 border-black bg-white shadow-[0_4px_2px_rgba(0,0,0,0.2)]"
+                        className="flex justify-between items-center w-[25vw] px-3 py-2 border-2 border-black bg-white shadow-[0_4px_2px_rgba(0,0,0,0.2)]"
                     >
-                        <p className="flex-1 break-all min-w-0">{task}</p>
+                        <button
+                            onClick={() => taskStatusToggle(task)}
+                            className="p-2 cursor-pointer rounded-2xl hover:scale-105 hover:bg-green-300 duration-150"
+                        >
+                            <FaCheck />
+                        </button>
+                        <p
+                            className={`min-w-0 flex-1 ml-4 mr-2 [overflow-wrap:anywhere] ${
+                                isCompleted ? "line-through text-gray-500" : ""
+                            }`}
+                        >
+                            {task}
+                        </p>
                         <div className="flex space-x-2">
-                            <button className="p-2 cursor-pointer hover:scale-105 duration-150">
+                            <button className="p-2 cursor-pointer rounded-2xl hover:scale-105 hover:bg-green-300 duration-150">
                                 <FaEdit />
                             </button>
-                            <button className="p-2 cursor-pointer hover:scale-105 duration-150">
+                            <button className="p-2 cursor-pointer rounded-2xl hover:scale-105 hover:bg-green-300 duration-150">
                                 <FaTrash />
                             </button>
                         </div>
