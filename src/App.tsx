@@ -35,6 +35,11 @@ function App() {
         );
     };
 
+    const deleteTask = (task: string) => {
+        const updatedTaskList = taskList.filter((item) => item.task !== task);
+        refreshTaskList(updatedTaskList);
+    };
+
     return (
         <>
             <div className="flex py-2 justify-center items-center">
@@ -86,7 +91,10 @@ function App() {
                             <button className="p-2 cursor-pointer rounded-2xl hover:scale-105 hover:bg-green-300 duration-150">
                                 <FaEdit />
                             </button>
-                            <button className="p-2 cursor-pointer rounded-2xl hover:scale-105 hover:bg-green-300 duration-150">
+                            <button
+                                onClick={() => deleteTask(task)}
+                                className="p-2 cursor-pointer rounded-2xl hover:scale-105 hover:bg-green-300 duration-150"
+                            >
                                 <FaTrash />
                             </button>
                         </div>
