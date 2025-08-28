@@ -5,10 +5,17 @@ interface TaskCardProps {
     task: string;
     isCompleted: boolean;
     onToggle: (taskName: string) => void;
+    onEdit: (taskName: string) => void;
     onDelete: (taskName: string) => void;
 }
 
-function TaskCard({ task, isCompleted, onToggle, onDelete }: TaskCardProps) {
+function TaskCard({
+    task,
+    isCompleted,
+    onToggle,
+    onEdit,
+    onDelete,
+}: TaskCardProps) {
     return (
         <div className="flex justify-between items-center w-[25vw] px-3 py-2 border-2 border-black bg-white shadow-[0_4px_2px_rgba(0,0,0,0.2)]">
             <button
@@ -25,7 +32,10 @@ function TaskCard({ task, isCompleted, onToggle, onDelete }: TaskCardProps) {
                 {task}
             </p>
             <div className="flex space-x-2">
-                <button className="p-2 cursor-pointer rounded-2xl hover:scale-105 hover:bg-green-300 duration-150">
+                <button
+                    onClick={() => onEdit(task)}
+                    className="p-2 cursor-pointer rounded-2xl hover:scale-105 hover:bg-green-300 duration-150"
+                >
                     <FaEdit />
                 </button>
                 <button
